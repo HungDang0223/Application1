@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_splash_screen/config/size-config.dart';
 import 'package:flutter_splash_screen/drawable/appbar.dart';
 import 'package:flutter_splash_screen/drawable/left-menu-drawer.dart';
 import 'package:flutter_splash_screen/pages/thap-huong-khan-phat.dart';
@@ -16,6 +17,7 @@ class GetUserGender extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: MyAppBar(),
@@ -44,10 +46,12 @@ class GetUserGender extends StatelessWidget {
                 children: [
                   Container(
                     child:
-                    const Text(
+                    FittedBox(
+                      child: Text(
                       'XA XA NHÌN THẤY THÍ CHỦ',
-                      style: TextStyle(fontSize: 18, color: Colors.red),
+                      style: TextStyle(fontSize: SizeConfig.safeBlockHorizontal*3.0, color: Colors.red),
                     ),
+                    )
                   ),
                   Center(
                     child: SizedBox(
