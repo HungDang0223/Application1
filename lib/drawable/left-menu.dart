@@ -3,7 +3,6 @@ import 'package:flutter_splash_screen/app-assets/AppImages.dart';
 import 'package:flutter_splash_screen/drawable/appbar.dart';
 import 'package:flutter_splash_screen/drawable/left-menu-drawer.dart';
 import 'package:get/get.dart';
-
 import '../controller/left-menu-controller.dart';
 import '../pages/get-infomation-user.dart';
 
@@ -16,7 +15,7 @@ class LeftMenu extends StatefulWidget {
 
 class _LeftMenuState extends State<LeftMenu> {
   final controller = Get.put(LeftMenuController());
-  final userInfomationController = Get.put(UserInfomationController());
+  final userInfomationController = Get.find();
 
   @override
   Widget build(BuildContext context) {

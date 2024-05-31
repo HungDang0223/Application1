@@ -8,17 +8,18 @@ import 'package:flutter_splash_screen/pages/thap-huong-khan-phat.dart';
 import 'package:get/get.dart';
 
 import '../app-assets/AppImages.dart';
+import '../main.dart';
 
 class GetUserGender extends StatelessWidget {
   GetUserGender({super.key});
-  final UserInfomationController controller
-    = Get.put(UserInfomationController());
+  final UserInfomationController controller = Get.put(UserInfomationController());
   final List<String> gender = ['NAM', 'NỮ', 'KHÁC'];
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    final width = MediaQuery.of(context).size.width;
+    final width = SizeConfig.screenWidth;
+    final safeBlockHorizontal = SizeConfig.safeBlockHorizontal;
     return Scaffold(
       appBar: MyAppBar(),
       drawer: const MyLeftMenu(),
@@ -49,7 +50,7 @@ class GetUserGender extends StatelessWidget {
                     FittedBox(
                       child: Text(
                       'XA XA NHÌN THẤY THÍ CHỦ',
-                      style: TextStyle(fontSize: SizeConfig.safeBlockHorizontal*3.0, color: Colors.red),
+                      style: TextStyle(fontSize: safeBlockHorizontal*5.5, color: Colors.red),
                     ),
                     )
                   ),
@@ -65,13 +66,25 @@ class GetUserGender extends StatelessWidget {
                           itemBuilder: (context, i) {
                             return Container(
                               padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                              child: RadioListTile(
-                                title: Text(gender[i], style: const TextStyle(fontSize: 20)),
-                                value: gender[i],
-                                groupValue: controller.selectedGender.value,
-                                onChanged: controller.changeGender,
-                                contentPadding: EdgeInsets.symmetric(horizontal: width * 0.25),
-                              ),
+                              child: Row(
+                                children: [
+                                  Transform.scale(
+                                    scale: safeBlockHorizontal / 4.5,
+                                    child: Radio(
+                                      value:  gender[i],
+                                      groupValue: controller.selectedGender.value,
+                                      onChanged: controller.changeGender),
+                                  ),
+                                  SizedBox(width: controller.isTablet.value ? 20.0 : 4.0,),
+                                  Container(
+                                    child: Text(
+                                      gender[i],
+                                      style: TextStyle(
+                                        fontSize: safeBlockHorizontal * 5.0),
+                                    ),
+                                  )
+                                ],
+                              )
                             );
                           },
                         ),
@@ -85,7 +98,7 @@ class GetUserGender extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.only(top: 10.0),
                       child: ElevatedButton(
-                        onPressed: () => Get.toNamed('/getusername'),
+                        onPressed: () => print(controller.isTablet),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.amber[600],
                           padding: const EdgeInsets.symmetric(horizontal: 60.0, vertical: 14.0),
@@ -121,6 +134,8 @@ class GetUserName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
+    final safeBlockHorizontal = SizeConfig.safeBlockHorizontal;
     return Scaffold(
       appBar: MyAppBar(),
       drawer: const MyLeftMenu(),
@@ -150,7 +165,7 @@ class GetUserName extends StatelessWidget {
               children: [
                 Container(
                   margin: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: const Text('CON TÊN LÀ:', style: TextStyle(fontSize: 21.0, color: Colors.red),),
+                  child: Text('CON TÊN LÀ:', style: TextStyle(fontSize: safeBlockHorizontal * 4.5, color: Colors.red),),
                 ),
                 Container(
                   width: 250.0,
@@ -334,15 +349,21 @@ class GetUserBirthYear extends StatelessWidget {
 }
 
 class UserInfomationController extends GetxController {
+
   var selectedGender = ''.obs;
   var selectedZodiac = ''.obs;
   var userName = ''.obs;
   var userNameValidate = true.obs;
+  final _textEditingController = TextEditingController().obs;
+
+  var isTablet = false.obs;
 
   var currentStep = 0.obs;
   var selectedPage =  Rx<Widget>(const ThapHuong());
 
-  final _textEditingController = TextEditingController().obs;
+  void setDeviceType(BuildContext context) {
+    isTablet.value = SizeConfig.isTablet(context);
+  }
 
   void changeGender(String? gender) {
     selectedGender.value = gender!;

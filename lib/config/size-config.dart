@@ -1,7 +1,4 @@
-import 'dart:io';
 import 'package:flutter/widgets.dart';
-import 'dart:async';
-import 'package:device_info_plus/device_info_plus.dart';
 
 class SizeConfig {
   static late MediaQueryData _mediaQueryData;
@@ -28,25 +25,8 @@ class SizeConfig {
     safeBlockVertical = (screenHeight - _safeAreaVertical)/100;
   }
 
-    static Future<bool> isTablet(BuildContext context) async {
-    bool isTab = false;
-    if (Platform.isIOS) {
-      DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-      if (iosInfo.model.toLowerCase() == "ipad") {
-        isTab = true;
-      } else {
-        isTab = false;
-      }
-      return isTab;
-    } else {
+  static bool isTablet(BuildContext context) {
       var shortestSide = MediaQuery.of(context).size.shortestSide;
-      if (shortestSide > 600) {
-        isTab = true;
-      } else {
-        isTab = false;
-      }
-      return isTab;
-    }
+      return shortestSide > 550;
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_splash_screen/config/size-config.dart';
 import 'package:flutter_splash_screen/drawable/left-menu.dart';
 import 'package:flutter_splash_screen/pages/kinh-phat.dart';
 import 'package:flutter_splash_screen/pages/loi-day.dart';
@@ -13,11 +14,21 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+
+class MyApp extends StatefulWidget {
+
   const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  
+  @override
   Widget build(BuildContext context) {
+    final UserInfomationController controller = Get.put(UserInfomationController());
+    controller.setDeviceType(context);
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Viếng chùa',
