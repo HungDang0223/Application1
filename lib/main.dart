@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_splash_screen/config/size-config.dart';
-import 'package:flutter_splash_screen/drawable/left-menu.dart';
+import 'package:flutter_splash_screen/drawable/main-screen.dart';
 import 'package:flutter_splash_screen/pages/kinh-phat.dart';
 import 'package:flutter_splash_screen/pages/loi-day.dart';
 import 'package:flutter_splash_screen/pages/thap-huong-khan-phat.dart';
@@ -38,7 +37,7 @@ class _MyAppState extends State<MyApp> {
         GetPage(name: '/thaphuong', page: () => ThapHuong()),
         GetPage(name: '/kinhphat', page: () => KinhPhat()),
         GetPage(name: '/loiday', page: () => LoiDay()),
-        GetPage(name: '/', page: () => LeftMenu()),
+        GetPage(name: '/', page: () => MainScreen()),
         GetPage(name: '/getuserbirthyear', page: () => GetUserBirthYear()),
         GetPage(name: '/getusername', page: () => GetUserName()),
       ],

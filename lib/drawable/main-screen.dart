@@ -4,16 +4,15 @@ import 'package:flutter_splash_screen/drawable/appbar.dart';
 import 'package:flutter_splash_screen/drawable/left-menu-drawer.dart';
 import 'package:get/get.dart';
 import '../controller/left-menu-controller.dart';
-import '../pages/get-infomation-user.dart';
 
-class LeftMenu extends StatefulWidget {
-  const LeftMenu({super.key});
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
 
   @override
-  State<LeftMenu> createState() => _LeftMenuState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
-class _LeftMenuState extends State<LeftMenu> {
+class _MainScreenState extends State<MainScreen> {
   final controller = Get.put(LeftMenuController());
   final userInfomationController = Get.find();
 

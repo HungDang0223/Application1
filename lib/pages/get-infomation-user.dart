@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_splash_screen/config/size-config.dart';
 import 'package:flutter_splash_screen/drawable/appbar.dart';
 import 'package:flutter_splash_screen/drawable/left-menu-drawer.dart';
@@ -8,7 +6,6 @@ import 'package:flutter_splash_screen/pages/thap-huong-khan-phat.dart';
 import 'package:get/get.dart';
 
 import '../app-assets/AppImages.dart';
-import '../main.dart';
 
 class GetUserGender extends StatelessWidget {
   GetUserGender({super.key});
@@ -98,7 +95,7 @@ class GetUserGender extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.only(top: 10.0),
                       child: ElevatedButton(
-                        onPressed: () => print(controller.isTablet),
+                        onPressed: () => Get.toNamed('/getusername'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.amber[600],
                           padding: const EdgeInsets.symmetric(horizontal: 60.0, vertical: 14.0),
@@ -227,12 +224,12 @@ class GetUserBirthYear extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
+    final safeBlockHorizontal = SizeConfig.safeBlockHorizontal;
     return Scaffold(
       appBar: MyAppBar(),
       drawer: const MyLeftMenu(),
-      backgroundColor: const Color.fromRGBO(255, 255, 255, 0.7),
-      body:
-      Stack(
+      body: Stack(
         alignment: Alignment.center,
         children: [
           Container(
@@ -246,102 +243,108 @@ class GetUserBirthYear extends StatelessWidget {
           Container(
             width: double.infinity,
             height: double.infinity,
-            color: const Color.fromRGBO(255, 255, 255, 0.5),
+            color: const Color.fromRGBO(255, 255, 255, 0.7),
           ),
-            LayoutBuilder(
-              builder: (context, constraints) {
-                int crossAxisCount;
-                if (constraints.maxWidth > 900) {
-                  crossAxisCount = 6;
-                } else if (constraints.maxWidth > 600) {
-                  crossAxisCount = 4;
-                } else {
-                  crossAxisCount = 3;
-                }
+          LayoutBuilder(
+            builder: (context, constraints) {
+              int crossAxisCount;
+              if (constraints.maxWidth > 600) {
+                crossAxisCount = 4;
+              } else {
+                crossAxisCount = 3;
+              }
 
-                return Obx(() {
-                  var _selectedZodiac = controller.selectedZodiac.value;
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(8.0),
-                          child: const Text(
-                            'NIÊN SINH',
-                            style: TextStyle(fontSize: 24.0, color: Colors.red),
-                          ),
+              return Obx(() {
+                var _selectedZodiac = controller.selectedZodiac.value;
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'NIÊN SINH',
+                          style: TextStyle(fontSize: safeBlockHorizontal * 4.5, color: Colors.red),
                         ),
-                        Container(
-                          height: 52.0 * 12 / (crossAxisCount + 1),
-                          width: constraints.maxWidth * 0.9,
-                          color: const Color.fromARGB(20, 88, 88, 88),
-                            child: GridView.builder(
-                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: crossAxisCount,
-                                crossAxisSpacing: 5.0,
-                                mainAxisSpacing: 5.0,
-                                childAspectRatio: 2.5,
-                                mainAxisExtent: 35
-                              ),
-                              itemCount: birthYear.length,
-                              itemBuilder: (context, i) {
-                                return Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                                  child: GestureDetector(
-                                    onTap: () => controller.changeZodiac(birthYear[i]),
-                                    child: Row(
-                                    children: [
-                                      Radio(
-                                          value: birthYear[i],
-                                          groupValue:
-                                              controller.selectedZodiac.value,
-                                          onChanged: controller.changeZodiac,
-                                          activeColor: Colors.amber,),
-                                      Container(
-                                        child: Text(birthYear[i], style: const TextStyle(color: Colors.blue, fontSize: 20),),
-                                      )
-                                    ],
-                                  ),
-                                  ),
-                                  
-                                );
-                              },
+                      ),
+                      Container(
+                        height: safeBlockHorizontal * 10 * 12 / (crossAxisCount + 1),
+                        width: constraints.maxWidth * 0.9,
+                        color: Colors.white54,
+                          child: GridView.builder(
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: crossAxisCount,
+                              crossAxisSpacing: 10.0,
+                              mainAxisSpacing: controller.isTablet.value ? 20.0 : 5.0,
+                              childAspectRatio: 2.5,
+                              mainAxisExtent: safeBlockHorizontal * 6
                             ),
-                        ),
-                        Visibility(
-                          visible: _selectedZodiac == '' ? false : true,
-                          child: 
-                          Container(
-                            margin: const EdgeInsets.only(top: 10.0),
-                            child: ElevatedButton(
-                              onPressed: () => Get.offAllNamed('/'),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.amber[600],
-                                padding: const EdgeInsets.symmetric(horizontal: 60.0, vertical: 14.0),
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(20.0),
-                                    bottomRight: Radius.circular(20.0),
-                                    topLeft: Radius.zero,
-                                    bottomLeft: Radius.zero,
-                                  ),
+                            itemCount: birthYear.length,
+                            itemBuilder: (context, i) {
+                              return Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                alignment: Alignment.center,
+                                child: GestureDetector(
+                                  onTap: () => controller.changeZodiac(birthYear[i]),
+                                  child: Row(
+                                  children: [
+                                    Transform.scale(
+                                      scale: safeBlockHorizontal / 6.5,
+                                      child: Radio(
+                                        value: birthYear[i],
+                                        groupValue:
+                                            controller.selectedZodiac.value,
+                                        onChanged: controller.changeZodiac,
+                                        activeColor: Colors.amber,),
+                                    ),
+                                    SizedBox(width: 0.0,),
+                                    Container(
+                                      child: Text(
+                                        birthYear[i],
+                                        style: TextStyle(
+                                            color: Colors.blue,
+                                            fontSize: safeBlockHorizontal * 4.5),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                ),
+                              );
+                            },
+                          ),
+                      ),
+                      Visibility(
+                        visible: _selectedZodiac == '' ? false : true,
+                        child: 
+                        Container(
+                          margin: const EdgeInsets.only(top: 10.0),
+                          child: ElevatedButton(
+                            onPressed: () => Get.offAllNamed('/'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.amber[600],
+                              padding: const EdgeInsets.symmetric(horizontal: 60.0, vertical: 14.0),
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(20.0),
+                                  bottomRight: Radius.circular(20.0),
+                                  topLeft: Radius.zero,
+                                  bottomLeft: Radius.zero,
                                 ),
                               ),
-                              child: const Text(
-                                'Tiếp >>',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            )
-                          ),
-                        )
-                      ],
-                    ),
-                  );
-                });
-              },
-            ),
-          
+                            ),
+                            child: const Text(
+                              'Tiếp >>',
+                              style: TextStyle(color: Colors.white, fontSize: 12),
+                            ),
+                          )
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              });
+            },
+          ),
         ]
       )
     );

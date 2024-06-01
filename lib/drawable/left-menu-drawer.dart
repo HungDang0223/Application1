@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_splash_screen/app-assets/AppImages.dart';
+import 'package:flutter_splash_screen/config/size-config.dart';
 import 'package:flutter_splash_screen/pages/kinh-phat.dart';
 import 'package:flutter_splash_screen/pages/loi-day.dart';
 import 'package:flutter_splash_screen/pages/thap-huong-khan-phat.dart';
@@ -27,6 +28,8 @@ class _MyLeftMenuState extends State<MyLeftMenu> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
+    final safeBlockHorizontal = SizeConfig.safeBlockHorizontal;
     return Obx(() {
         var selectedIndex = controller.tabIndex.value;
         return Drawer(
@@ -48,7 +51,7 @@ class _MyLeftMenuState extends State<MyLeftMenu> {
                     const SizedBox(height: 10),
                     const Text(
                       'VẠN SỰ TÙY DUYÊN',
-                      style: TextStyle(color: Colors.white, fontSize: 16.0),
+                      style: TextStyle(color: Colors.white, fontSize: 18.0),
                     ),
                     const Text(
                       '---',
