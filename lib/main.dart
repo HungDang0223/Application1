@@ -6,6 +6,7 @@ import 'package:flutter_splash_screen/pages/thap-huong-khan-phat.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:get/get.dart';
 
+import 'config/size-config.dart';
 import 'pages/get-infomation-user.dart';
 
 void main() {
@@ -26,7 +27,7 @@ class _MyAppState extends State<MyApp> {
   
   @override
   Widget build(BuildContext context) {
-    final UserInfomationController controller = Get.put(UserInfomationController());
+    final MainController controller = Get.put(MainController());
     controller.setDeviceType(context);
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
@@ -42,5 +43,12 @@ class _MyAppState extends State<MyApp> {
         GetPage(name: '/getusername', page: () => GetUserName()),
       ],
     );
+  }
+}
+
+class MainController extends GetxController {
+  var isTablet = false.obs;
+  void setDeviceType(BuildContext context) {
+    isTablet.value = SizeConfig.isTablet(context);
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_splash_screen/config/size-config.dart';
 import 'package:flutter_splash_screen/drawable/appbar.dart';
 import 'package:flutter_splash_screen/drawable/left-menu-drawer.dart';
+import 'package:flutter_splash_screen/main.dart';
 import 'package:flutter_splash_screen/pages/thap-huong-khan-phat.dart';
 import 'package:get/get.dart';
 
@@ -10,6 +11,7 @@ import '../app-assets/AppImages.dart';
 class GetUserGender extends StatelessWidget {
   GetUserGender({super.key});
   final UserInfomationController controller = Get.put(UserInfomationController());
+  final _mainController = Get.find<MainController>();
   final List<String> gender = ['NAM', 'NỮ', 'KHÁC'];
 
   @override
@@ -17,6 +19,7 @@ class GetUserGender extends StatelessWidget {
     SizeConfig().init(context);
     final width = SizeConfig.screenWidth;
     final safeBlockHorizontal = SizeConfig.safeBlockHorizontal;
+    final deviceType = _mainController.isTablet.value;
     return Scaffold(
       appBar: MyAppBar(),
       drawer: const MyLeftMenu(),
@@ -72,7 +75,7 @@ class GetUserGender extends StatelessWidget {
                                       groupValue: controller.selectedGender.value,
                                       onChanged: controller.changeGender),
                                   ),
-                                  SizedBox(width: controller.isTablet.value ? 20.0 : 4.0,),
+                                  SizedBox(width: _mainController.isTablet.value ? 20.0 : 4.0,),
                                   Container(
                                     child: Text(
                                       gender[i],
@@ -98,7 +101,7 @@ class GetUserGender extends StatelessWidget {
                         onPressed: () => Get.toNamed('/getusername'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.amber[600],
-                          padding: const EdgeInsets.symmetric(horizontal: 60.0, vertical: 14.0),
+                          padding: EdgeInsets.symmetric(horizontal: deviceType ? 70 : 60.0, vertical: 16.0),
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
                               topRight: Radius.circular(20.0),
@@ -108,9 +111,9 @@ class GetUserGender extends StatelessWidget {
                             ),
                           ),
                         ),
-                        child: const Text(
+                        child: Text(
                           'Tiếp >>',
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: Colors.white, fontSize: deviceType ? 24 : 16),
                         ),
                       )
                     ),
@@ -128,11 +131,12 @@ class GetUserGender extends StatelessWidget {
 class GetUserName extends StatelessWidget {
   GetUserName({super.key});
   final UserInfomationController controller = Get.put(UserInfomationController());
+  final _mainController = Get.find<MainController>();
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    final safeBlockHorizontal = SizeConfig.safeBlockHorizontal;
+    final deviceType = _mainController.isTablet.value;
     return Scaffold(
       appBar: MyAppBar(),
       drawer: const MyLeftMenu(),
@@ -155,22 +159,29 @@ class GetUserName extends StatelessWidget {
           ),
           Container(
             width: MediaQuery.of(context).size.width * 0.85,
-            height: 200,
+            height: 220,
             color: const Color.fromRGBO(255, 255, 255, 0.1),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                   margin: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: Text('CON TÊN LÀ:', style: TextStyle(fontSize: safeBlockHorizontal * 4.5, color: Colors.red),),
+                    child: Text(
+                      'CON TÊN LÀ:',
+                      style: TextStyle(
+                          fontSize: deviceType ? 28 : 20,
+                          color: Colors.red),
+                    ),
                 ),
                 Container(
                   width: 250.0,
                   child: TextField(
+                    style: TextStyle(fontSize: deviceType ? 24 : 18),
                     textAlign: TextAlign.center,
-                    decoration: const InputDecoration(
-                      border: UnderlineInputBorder(),
-                      hintText: 'Nhập họ và tên'
+                    decoration: InputDecoration(
+                      border: const UnderlineInputBorder(),
+                      hintText: 'Nhập họ và tên',
+                      hintStyle: TextStyle(fontSize: deviceType ? 20 : 16)
                     ),
                     controller: controller._textEditingController.value,
                     onSubmitted: (value) {
@@ -189,22 +200,22 @@ class GetUserName extends StatelessWidget {
                 //   ),
                 // )),
                 Container(
-                  margin: const EdgeInsets.only(top: 20.0),
+                  margin: const EdgeInsets.only(top: 25.0),
                   child: ElevatedButton(
                     onPressed: () => Get.toNamed('/getuserbirthyear'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.amber[600],
-                      padding: const EdgeInsets.symmetric(horizontal: 60.0, vertical: 14.0),
+                      padding: EdgeInsets.symmetric(horizontal: deviceType ? 70 : 60.0, vertical: 16.0),
                       shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(20.0),
-                          bottomRight: Radius.circular(20.0),
+                          topRight: Radius.circular(40.0),
+                          bottomRight: Radius.circular(40.0),
                         ),
                       ),
                     ),
-                    child: const Text(
+                    child: Text(
                       'Tiếp >>',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.white, fontSize: deviceType ? 24 : 16),
                     ),
                   )
                 ),
@@ -221,11 +232,13 @@ class GetUserBirthYear extends StatelessWidget {
   GetUserBirthYear({super.key});
   final List<String> birthYear = ['Tý', 'Sửu', 'Dần', 'Mão', 'Thìn', 'Tỵ', 'Ngọ', 'Mùi', 'Thân', 'Dậu', 'Tuất', 'Hợi'];
   final UserInfomationController controller = Get.put(UserInfomationController());
+  final _mainController = Get.find<MainController>();
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     final safeBlockHorizontal = SizeConfig.safeBlockHorizontal;
+    final deviceType = _mainController.isTablet.value;
     return Scaffold(
       appBar: MyAppBar(),
       drawer: const MyLeftMenu(),
@@ -243,7 +256,7 @@ class GetUserBirthYear extends StatelessWidget {
           Container(
             width: double.infinity,
             height: double.infinity,
-            color: const Color.fromRGBO(255, 255, 255, 0.7),
+            color: const Color.fromRGBO(255, 255, 255, 0.8),
           ),
           LayoutBuilder(
             builder: (context, constraints) {
@@ -256,7 +269,7 @@ class GetUserBirthYear extends StatelessWidget {
 
               return Obx(() {
                 var _selectedZodiac = controller.selectedZodiac.value;
-                return Center(
+                return Container(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -264,7 +277,7 @@ class GetUserBirthYear extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           'NIÊN SINH',
-                          style: TextStyle(fontSize: safeBlockHorizontal * 4.5, color: Colors.red),
+                          style: TextStyle(fontSize: deviceType ? 32 : 20, color: Colors.red),
                         ),
                       ),
                       Container(
@@ -275,7 +288,7 @@ class GetUserBirthYear extends StatelessWidget {
                             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: crossAxisCount,
                               crossAxisSpacing: 10.0,
-                              mainAxisSpacing: controller.isTablet.value ? 20.0 : 5.0,
+                              mainAxisSpacing: _mainController.isTablet.value ? 20.0 : 5.0,
                               childAspectRatio: 2.5,
                               mainAxisExtent: safeBlockHorizontal * 6
                             ),
@@ -297,7 +310,7 @@ class GetUserBirthYear extends StatelessWidget {
                                         onChanged: controller.changeZodiac,
                                         activeColor: Colors.amber,),
                                     ),
-                                    SizedBox(width: 0.0,),
+                                    const SizedBox(width: 0.0,),
                                     Container(
                                       child: Text(
                                         birthYear[i],
@@ -322,7 +335,7 @@ class GetUserBirthYear extends StatelessWidget {
                             onPressed: () => Get.offAllNamed('/'),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.amber[600],
-                              padding: const EdgeInsets.symmetric(horizontal: 60.0, vertical: 14.0),
+                              padding: EdgeInsets.symmetric(horizontal: deviceType ? 70 : 60.0, vertical: 16.0),
                               shape: const RoundedRectangleBorder(
                                 borderRadius: BorderRadius.only(
                                   topRight: Radius.circular(20.0),
@@ -332,9 +345,9 @@ class GetUserBirthYear extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            child: const Text(
+                            child: Text(
                               'Tiếp >>',
-                              style: TextStyle(color: Colors.white, fontSize: 12),
+                              style: TextStyle(color: Colors.white, fontSize: deviceType ? 24 : 16),
                             ),
                           )
                         ),
@@ -359,14 +372,9 @@ class UserInfomationController extends GetxController {
   var userNameValidate = true.obs;
   final _textEditingController = TextEditingController().obs;
 
-  var isTablet = false.obs;
-
   var currentStep = 0.obs;
   var selectedPage =  Rx<Widget>(const ThapHuong());
 
-  void setDeviceType(BuildContext context) {
-    isTablet.value = SizeConfig.isTablet(context);
-  }
 
   void changeGender(String? gender) {
     selectedGender.value = gender!;
